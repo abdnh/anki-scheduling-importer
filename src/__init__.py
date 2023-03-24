@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 import functools
 import time
 import zipfile
@@ -13,6 +14,13 @@ from aqt.operations import CollectionOp
 from aqt.qt import *
 from aqt.utils import getFile, tooltip
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "vendor"))
+try:
+    import pyzstd
+except ImportError as exc:
+    pyzstd = None
+    print(f"scheduling_importer warning: {exc}")
+
 
 def on_import_scheduling() -> None:
     file = getFile(
@@ -24,7 +32,14 @@ def on_import_scheduling() -> None:
     def import_op(col: Collection) -> OpChangesWithCount:
         assert isinstance(file, str)
         zip = zipfile.ZipFile(file)
-        col_bytes = zip.read(f"collection.anki21")
+        try:
+            col_bytes = zip.read(f"collection.anki21")
+        except KeyError:
+            if pyzstd:
+                # New export format (2.1.50+)
+                col_bytes = pyzstd.decompress(zip.read(f"collection.anki21b"))
+            else:
+                raise
         colpath = tmpfile(suffix=".anki21")
         with open(colpath, "wb") as f:
             f.write(col_bytes)

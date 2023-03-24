@@ -1,14 +1,15 @@
-.PHONY: all zip clean format mypy pylint fix
+.PHONY: all zip clean format mypy pylint fix vendor
 all: zip
 
 PACKAGE_NAME := scheduling_importer
 
-zip: $(PACKAGE_NAME).ankiaddon
+zip: build/$(PACKAGE_NAME).ankiaddon
 
-$(PACKAGE_NAME).ankiaddon: src/*
+build/$(PACKAGE_NAME).ankiaddon: src/* vendor
 	rm -f $@
 	rm -rf src/__pycache__
 	rm -rf src/meta.json
+	mkdir -p build
 	( cd src/; zip -r ../$@ * )
 
 fix:
@@ -21,5 +22,8 @@ mypy:
 pylint:
 	python -m pylint src
 
+vendor:
+	./vendor.sh
+
 clean:
-	rm -f $(PACKAGE_NAME).ankiaddon
+	rm -rf build/

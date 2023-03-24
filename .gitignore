@@ -1,6 +1,6 @@
 venv/
 __pycache__/
 .mypy_cache/
-*.ankiaddon
 meta.json
 ankidata/
+build/

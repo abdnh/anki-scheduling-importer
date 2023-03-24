@@ -1,8 +1,1 @@
-anki==2.1.60
-aqt==2.1.60
-PyQt5==5.15.9
-PyQt6==6.4.2
-mypy==1.1.1
-pylint==2.17.0
-isort==5.12.0
-black==23.1.0
+pyzstd==0.15.4
