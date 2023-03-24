@@ -1,0 +1,5 @@
+{
+    "name": "Scheduling Importer",
+    "package": "scheduling_importer",
+    "min_point_version": 45
+}
