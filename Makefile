@@ -5,7 +5,7 @@ PACKAGE_NAME := scheduling_importer
 
 zip: build/$(PACKAGE_NAME).ankiaddon
 
-build/$(PACKAGE_NAME).ankiaddon: src/* vendor
+build/$(PACKAGE_NAME).ankiaddon: src/*
 	rm -f $@
 	rm -rf src/__pycache__
 	rm -rf src/meta.json
