@@ -7,7 +7,8 @@ zip: build/$(PACKAGE_NAME).ankiaddon
 
 build/$(PACKAGE_NAME).ankiaddon: src/*
 	rm -f $@
-	rm -rf src/__pycache__
+	# rm -rf src/__pycache__
+	find src/ -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 	rm -rf src/meta.json
 	mkdir -p build
 	( cd src/; zip -r ../$@ * )
