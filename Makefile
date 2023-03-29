@@ -13,7 +13,7 @@ build/$(PACKAGE_NAME).ankiaddon: src/* vendor
 	( cd src/; zip -r ../$@ * )
 
 fix:
-	python -m black src
+	python -m black src --exclude="vendor"
 	python -m isort src
 
 mypy:
