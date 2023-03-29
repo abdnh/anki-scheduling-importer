@@ -1,3 +1,4 @@
+-r requirements.txt
 anki==2.1.60
 aqt==2.1.60
 PyQt5==5.15.9
