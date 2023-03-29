@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import sys
 import functools
+import os
+import sys
 import time
 import zipfile
 
@@ -31,18 +32,18 @@ def on_import_scheduling() -> None:
 
     def import_op(col: Collection) -> OpChangesWithCount:
         assert isinstance(file, str)
-        zip = zipfile.ZipFile(file)
-        try:
-            col_bytes = zip.read(f"collection.anki21")
-        except KeyError:
-            if pyzstd:
-                # New export format (2.1.50+)
-                col_bytes = pyzstd.decompress(zip.read(f"collection.anki21b"))
-            else:
-                raise
+        with zipfile.ZipFile(file) as zip:
+            try:
+                col_bytes = zip.read("collection.anki21")
+            except KeyError:
+                if pyzstd:
+                    # New export format (2.1.50+)
+                    col_bytes = pyzstd.decompress(zip.read("collection.anki21b"))
+                else:
+                    raise
         colpath = tmpfile(suffix=".anki21")
-        with open(colpath, "wb") as f:
-            f.write(col_bytes)
+        with open(colpath, "wb") as buf:
+            buf.write(col_bytes)
         src = Collection(colpath)
         dst = col
         total_cards = src.db.scalar("select count() from cards")

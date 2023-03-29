@@ -1,5 +1,5 @@
 [MASTER]
-extension-pkg-whitelist=PyQt6,PyQt5
+extension-pkg-whitelist=PyQt6,PyQt5,pyzstd
 
 
 [REPORTS]
@@ -8,9 +8,9 @@ output-format=colorized
 [MESSAGES CONTROL]
 disable=
   line-too-long,
-  missing-module-string,
-  missing-function-string,
-
+  missing-module-docstring,
+  missing-function-docstring,
+  redefined-builtin,
 
 [BASIC]
 good-names =
